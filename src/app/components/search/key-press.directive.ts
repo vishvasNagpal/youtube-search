@@ -1,21 +1,22 @@
 import { Directive, Input, Output, EventEmitter, ElementRef, HostListener } from '@angular/core';
 
 @Directive({
-  selector: '[mouseMoveTarget]',
+  selector: '[keyPress]',
 })
-export class MouseMoveDirectiveDirective {
-  @Input('index') index: -1;
-  @Output() mouseMoveTarget = new EventEmitter<any>();
-
+export class KeyPressDirective {
+  @Input('selectedIndex') selectedIndex;
+  @Output() keyPress = new EventEmitter<any>();
 
   constructor(private elementRef: ElementRef) { }
 
-  @HostListener('document:mousemove', ['$event.target'])
-  public onMouseMove(target1) {
-
+  @HostListener('document:keyup', ['$event', '$event.target'])
+  public onMouseMove(eve, target1) {
     const target = this.elementRef.nativeElement.contains(target1);
-    if (target) {
-      this.mouseMoveTarget.emit({index: this.index});
+    if (eve.key === 'ArrowDown' && target) {
+      this.keyPress.emit({index: this.selectedIndex + 1});
+    }
+    if (eve.key === 'ArrowUp' && target) {
+      this.keyPress.emit({index: this.selectedIndex - 1});
     }
   }
 }

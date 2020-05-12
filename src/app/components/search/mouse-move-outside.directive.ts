@@ -1,12 +1,10 @@
 import { Directive, Input, Output, EventEmitter, ElementRef, HostListener } from '@angular/core';
 
 @Directive({
-  selector: '[mouseMoveTarget]',
+  selector: '[mouseMoveOutside]',
 })
-export class MouseMoveDirectiveDirective {
-  @Input('index') index;
-  @Output() mouseMoveTarget = new EventEmitter<any>();
-
+export class MouseMoveOutsideDirective {
+  @Output() mouseMoveOutside = new EventEmitter<any>();
 
   constructor(private elementRef: ElementRef) { }
 
@@ -14,8 +12,8 @@ export class MouseMoveDirectiveDirective {
   public onMouseMove(target1) {
 
     const target = this.elementRef.nativeElement.contains(target1);
-    if (target) {
-      this.mouseMoveTarget.emit({index: this.index});
+    if (!target) {
+      this.mouseMoveOutside.emit({index: -1});
     }
   }
 }

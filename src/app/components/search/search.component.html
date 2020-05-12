@@ -1,0 +1,22 @@
+<div (clickOutside)="onBlur($event)" class="searchBox">
+  <input
+    type="text"
+    (focus)="onFocus($event)"
+    (keyup)="onChange($event)"
+    class="searchInput"
+    (keyPress)="onKeyPress($event)"
+    [selectedIndex]="selectedItem"
+  >
+  <ul *ngIf="showList" (mouseMoveOutside)="onMouseMove($event)">
+    <li [ngClass]="{'selected': selectedItem === indx}"
+        *ngFor="let item of results; let indx = index;"
+        (mouseMoveTarget)="onMouseMove($event)"
+        [index]="indx"
+    >
+      <div>{{item.name}}</div>
+      <div>{{item.address}}</div>
+      <div>{{item.pincode}}</div>
+    </li>
+  </ul>
+</div>
+
